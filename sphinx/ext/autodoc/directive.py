@@ -86,6 +86,10 @@ def process_documenter_options(documenter: "Type[Documenter]", config: Config, o
             if name in config.autodoc_default_options and not negated:
                 options[name] = config.autodoc_default_options[name]
 
+    # Handle :private-members: option with arguments
+    if 'private-members' in options and options['private-members'] is not True:
+        options['private-members'] = [x.strip() for x in options['private-members'].split(',') if x.strip()]
+
     return Options(assemble_option_dict(options.items(), documenter.option_spec))
 
 
